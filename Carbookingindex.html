@@ -4,40 +4,89 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Malik Nasir Sangha - Gari Booking | Gujranwala</title>
 <style>
-body{font-family:Arial;margin:0;background:#fff3d6;text-align:center}
-.top{background:#b40000;color:white;padding:15px;font-size:22px;font-weight:bold}
-img{width:100%;max-width:500px;border-radius:15px;margin-top:10px}
-.box{background:white;max-width:450px;margin:15px auto;padding:20px;border-radius:20px;box-shadow:0 0 15px #ccc}
-input,select{width:95%;padding:13px;margin:7px;border-radius:10px;border:1px solid #ccc;font-size:16px}
-.btn{background:#25D366;color:white;border:none;padding:15px;width:100%;border-radius:30px;font-size:19px;font-weight:bold;cursor:pointer}
-.callBtn{background:#b40000;display:block;color:white;text-decoration:none;padding:15px;border-radius:30px;font-weight:bold;margin-top:10px}
-.rate{background:#fff0a0;padding:10px;border-radius:10px;font-weight:bold}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:#f2f2f7;color:#111;text-align:center}
+.top{background:linear-gradient(135deg,#000,#2a0000);color:white;padding:20px 15px 25px;border-radius:0 0 30px 30px}
+.logo{width:65px;height:65px;background:#FFD700;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:32px;margin:auto}
+.top h1{font-size:23px;margin:10px 0 5px} .top h1 span{color:#FFD700}
+.top p{color:#aaa;font-size:13px;margin:0}
+.badges{max-width:480px;margin:15px auto;padding:0 15px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
+.badges div{background:white;padding:10px 5px;border-radius:15px;font-size:11px;font-weight:bold;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.badges span{font-size:20px;display:block}
+.banner{max-width:480px;margin:0 auto;background:linear-gradient(135deg,#b40000,#ff3333);color:white;padding:15px;border-radius:18px;text-align:left}
+.banner h2{margin:0;font-size:18px} .banner p{font-size:12px;margin:5px 0 0;opacity:.9}
+.box{background:white;max-width:480px;margin:15px auto;padding:20px;border-radius:25px;box-shadow:0 5px 20px rgba(0,0,0,.08);text-align:left}
+.box h3{margin:0 0 10px;text-align:center}
+input,select{width:100%;padding:14px;margin:6px 0;border-radius:12px;border:1px solid #ddd;font-size:15px;background:#fafafa}
+label{font-size:12px;font-weight:bold;color:#555;margin-left:5px}
+.btn{background:#25D366;color:white;border:none;padding:16px;width:100%;border-radius:30px;font-size:18px;font-weight:bold;cursor:pointer;margin-top:10px}
+.callBtn{display:block;background:black;color:white;text-decoration:none;padding:15px;border-radius:30px;font-weight:bold;margin-top:10px;text-align:center}
+.blueBtn{background:#007bff!important}
+.rate{background:#fff8d6;padding:12px;border-radius:12px;font-size:13px;line-height:1.6;margin:10px 0;text-align:center}
+.footer{font-size:12px;color:#999;padding:20px;line-height:1.6}
 </style>
 </head>
 <body>
-<div class="top">🚐 MALIK NASIR SANGHA - GARI BOOKING</div>
-<img src="https://i.imgur.com/8Qm8Z0v.jpeg" onerror="this.style.display='none'">
-<h2>Shadi, Barat, Out of City Ke Liye</h2>
-<div class="rate">✅ 7-8 Sawariyon Ke Liye Behtareen<br>✅ AC Laga Hua | Khuli Gari | 24/7 Available</div>
+<div class="top">
+<div class="logo">🚐</div>
+<h1>MALIK NASIR SANGHA<br><span>GARI BOOKING</span></h1>
+<p>Shadi, Barat, Out of City Ke Liye | Gujranwala</p>
+</div>
+
+<div class="badges">
+<div><span>👥</span>7-8 Sawari</div>
+<div><span>❄️</span>AC Laga Hua</div>
+<div><span>🚪</span>Khuli Gari</div>
+<div><span>🕐</span>24/7 Available</div>
+</div>
+
+<div class="banner">
+<h2>7-8 Sawariyon Ke Liye Behtareen!</h2>
+<p>Mukammal Aaram Deh Safar • AC Ki Behtareen Sahulat • Khubsurat Aur Mehfooz Safar</p>
+</div>
+
 <div class="box">
 <h3>📅 Apni Gari Book Karo</h3>
-<input id="name" placeholder="Apna Naam">
-<input id="phone" placeholder="Mobile Number">
-<select id="type"><option>Shadi / Barat</option><option>Out of City</option><option>Mehndi / Walima</option><option>Northern Areas Tour</option></select>
+<label>Apna Naam</label>
+<input id="name" placeholder="Jese: Muhammad Ahmed">
+<label>Mobile Number</label>
+<input id="phone" placeholder="03xx xxxxxxx">
+<label>Program Kis Cheez Ka Hai?</label>
+<select id="type">
+<option>Shadi / Barat</option>
+<option>Mehndi / Walima</option>
+<option>Out of City</option>
+<option>Northern Areas Tour</option>
+<option>Family Trip</option>
+</select>
+<label>Date</label>
 <input id="date" type="date">
-<input id="from" placeholder="Kahan Se Jana Hai? - Gujranwala">
-<input id="to" placeholder="Kahan Tak Jana Hai?">
+<label>Kahan Se Jana Hai?</label>
+<input id="from" placeholder="Jese: Gujranwala">
+<label>Kahan Tak Jana Hai?</label>
+<input id="to" placeholder="Jese: Lahore / Murree">
+<div class="rate">
+<b>✅ Shadi, Barat, Walima, Mehndi</b><br>
+<b>✅ Out of City Ke Liye Bhi Dastiyab Hai</b><br>
+<b>✅ Har Qism Ke Group Ke Liye Mozoon</b>
+</div>
 <button class="btn" onclick="book()">🟢 WhatsApp Pe Booking Bhejo</button>
 <a class="callBtn" href="tel:03070647564">📞 Abhi Call Karo - 0307 064 7564</a>
-<a class="callBtn" style="background:#007bff" href="tel:03485620342">📞 Call Karo - 0348 562 0342</a>
-<p style="font-size:13px;color:#555;">Muqam: Nasir Pur Kalan, Garhi Kala, Gujranwala</p>
+<a class="callBtn blueBtn" href="tel:03485620342">📞 Call Karo - 0348 562 0342</a>
+<p style="text-align:center;font-size:12px;color:#777;margin-top:12px">Muqam: Nasir Pur Kalan, Garhi Kala, Gujranwala</p>
 </div>
+
+<div class="footer">
+© 2026 Malik Nasir Sangha - Gari Booking<br>
+Made with ❤️ in Gujranwala
+</div>
+
 <script>
 function book(){
 let n=document.getElementById('name').value, p=document.getElementById('phone').value, t=document.getElementById('type').value, d=document.getElementById('date').value, f=document.getElementById('from').value, to=document.getElementById('to').value;
-let msg="Assalam-o-Alaikum! Mujhe Gari Book Karni Hai%0AName: "+n+"%0APhone: "+p+"%0APrograme: "+t+"%0ADate: "+d+"%0AFrom: "+f+"%0ATo: "+to;
+let msg="Assalam-o-Alaikum! Mujhe Gari Book Karni Hai%0A%0AName: "+n+"%0APhone: "+p+"%0AProgram: "+t+"%0ADate: "+d+"%0AFrom: "+f+"%0ATo: "+to;
 window.open("https://wa.me/923070647564?text="+msg);
 }
 </script>
 </body>
-</html>
+  </html>
