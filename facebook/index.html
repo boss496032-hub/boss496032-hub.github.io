@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FaizanBook - Apna Facebook</title>
+<style>
+body{margin:0;font-family:Arial;background:#f0f2f5}
+.top{background:white;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;box-shadow:0 2px 5px #ddd}
+.logo{font-size:28px;font-weight:bold;color:#1877F2}
+.top input{background:#f0f2f5;border:none;padding:10px 15px;border-radius:30px;width:45%;outline:none}
+.icons{font-size:22px}
+.storyRow{display:flex;gap:10px;padding:12px;overflow:auto}
+.story{min-width:105px;height:170px;border-radius:15px;background-size:cover;background-position:center;position:relative;color:white;padding:10px;display:flex;align-items:flex-end;font-weight:bold;font-size:13px}
+.create{background:white;margin:0 12px;padding:12px;border-radius:12px;display:flex;gap:10px;align-items:center}
+.create img{width:40px;height:40px;border-radius:50%}
+.create input{flex:1;background:#f0f2f5;border:none;padding:12px;border-radius:30px;outline:none}
+.btns{display:flex;justify-content:space-around;padding:10px 0 0;color:#555;font-size:14px;border-top:1px solid #eee;margin-top:10px}
+.post{background:white;margin:12px;border-radius:12px;padding:12px}
+.postHead{display:flex;gap:10px;align-items:center}
+.postHead img{width:42px;height:42px;border-radius:50%}
+.postHead b{font-size:14px} .postHead span{font-size:11px;color:#777;display:block}
+.post p{font-size:15px;line-height:1.5}
+.post img{width:100%;border-radius:10px}
+.actions{display:flex;justify-content:space-around;padding:10px 0 0;border-top:1px solid #eee;margin-top:10px;color:#555}
+.actions button{border:none;background:none;font-size:15px;cursor:pointer}
+.liked{color:#1877F2!important;font-weight:bold}
+.friends{background:white;margin:12px;border-radius:12px;padding:12px}
+.friends h3{margin:0 0 10px}
+.fRow{display:flex;gap:10px;align-items:center;margin:8px 0}
+.fRow img{width:45px;height:45px;border-radius:50%}
+.fRow button{background:#1877F2;color:white;border:none;padding:7px 15px;border-radius:8px;margin-left:auto}
+.bottomNav{position:fixed;bottom:0;left:0;right:0;background:white;display:flex;justify-content:space-around;padding:12px;font-size:24px;border-top:1px solid #ddd}
+</style>
+</head>
+<body>
+<div class="top"><div class="logo">FaizanBook</div><input placeholder="🔍 Search"><div class="icons">🔔 💬</div></div>
+
+<div class="storyRow">
+<div class="story" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400')">➕ Apni Story</div>
+<div class="story" style="background-image:url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400')">Malik Nasir</div>
+<div class="story" style="background-image:url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400')">Faizan</div>
+<div class="story" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400')">Ayesha</div>
+</div>
+
+<div class="create">
+<img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100">
+<input id="postInput" placeholder="Apne dimagh me kya hai, Faizan?">
+</div>
+<div style="background:white;margin:0 12px;border-radius:0 0 12px;padding:0 12px 12px"><div class="btns"><span onclick="addPost()">📝 Post Karo</span><span>📷 Photo</span><span>🎥 Live</span></div></div>
+
+<div id="feed">
+<div class="post">
+<div class="postHead"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100"><div><b>Malik Nasir Sangha</b><span>2 min ago • Gujranwala 📍</span></div></div>
+<p>🚐 Gari Booking ke liye rabta karo! Shadi, Barat, Out of City ke liye behtareen gari dastiyab hai! 7-8 sawariyon ke liye behtareen! 📞 0307 064 7564</p>
+<img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600">
+<div class="actions"><button onclick="like(this)">👍 Like <span>124</span></button><button onclick="alert('Comment likho!')">💬 Comment</button><button onclick="alert('Share ho gaya!')">↗️ Share</button></div>
+</div>
+
+<div class="post">
+<div class="postHead"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100"><div><b>Faizan Luxury</b><span>1 hour ago</span></div></div>
+<p>🔥 Meri nayi website live ho gayi hai! Sab ne dekh li? Link bio me hai! ❤️</p>
+<img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600">
+<div class="actions"><button onclick="like(this)">👍 Like <span>89</span></button><button>💬 Comment</button><button>↗️ Share</button></div>
+</div>
+</div>
+
+<div class="friends">
+<h3>👥 Dost Banao</h3>
+<div class="fRow"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100"><b>Ahmed Khan</b><button onclick="this.innerText='✅ Friend!'">Add Friend</button></div>
+<div class="fRow"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100"><b>Fatima Noor</b><button onclick="this.innerText='✅ Friend!'">Add Friend</button></div>
+<div class="fRow"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100"><b>Ali Raza</b><button onclick="this.innerText='✅ Friend!'">Add Friend</button></div>
+</div>
+
+<div class="bottomNav"><span>🏠</span><span>👥</span><span onclick="location.href='../car-booking/'">🚐</span><span>🔔</span><span>☰</span></div>
+<br><br><br>
+
+<script>
+function like(btn){btn.classList.toggle('liked'); let s=btn.querySelector('span'); let n=parseInt(s.innerText); s.innerText=btn.classList.contains('liked')?n+1:n-1}
+function addPost(){let t=document.getElementById('postInput').value; if(!t) return alert('Pehle kuch likho!'); let d=document.createElement('div'); d.className='post'; d.innerHTML='<div class=\"postHead\"><img src=\"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100\"><div><b>Tum</b><span>Abhi abhi</span></div></div><p>'+t+'</p><div class=\"actions\"><button onclick=\"like(this)\">👍 Like <span>0</span></button><button>💬 Comment</button><button>↗️ Share</button></div>'; document.getElementById('feed').prepend(d); document.getElementById('postInput').value=''; alert('Post ho gayi!');}
+</script>
+</body>
+</html>
