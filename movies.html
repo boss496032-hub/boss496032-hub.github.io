@@ -2,113 +2,101 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Faizan Movies & Anime - Auto Update</title>
+<title>Faizan Movies & Anime</title>
 <style>
 body{background:#0a0a0a;color:#fff;font-family:Arial;margin:0;text-align:center}
-.head{background:linear-gradient(90deg,red,#ff0066);padding:16px;font-size:22px;font-weight:900;position:sticky;top:0;z-index:10}
-.search{padding:12px;position:sticky;top:58px;background:#0a0a0a;z-index:9}
-input{width:68%;padding:13px;border-radius:25px;border:none;outline:none}
+.head{background:red;padding:15px;font-size:22px;font-weight:900;position:sticky;top:0;z-index:10}
+.search{padding:12px;background:#0a0a0a}
+input{width:65%;padding:13px;border-radius:25px;border:none;outline:none}
 button{padding:13px 18px;background:red;color:#fff;border:none;border-radius:25px;font-weight:bold}
-.tabs{display:flex;gap:8px;overflow:auto;padding:10px;justify-content:center}
-.tabs button{background:#222;color:#fff;border:1px solid #333;padding:9px 16px;border-radius:20px}
+.tabs{display:flex;gap:8px;overflow:auto;padding:10px}
+.tabs button{background:#222;color:#fff;border:1px solid #333;padding:10px 16px;border-radius:20px;white-space:nowrap}
 .tabs button.active{background:red}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}
 .card{background:#1a1a1a;border-radius:15px;overflow:hidden;text-align:left}
-.card img{width:100%;height:220px;object-fit:cover}
+.card img{width:100%;height:220px;object-fit:cover;background:#333}
 .card div{padding:10px}
-.card h4{margin:5px 0;font-size:14px;height:34px;overflow:hidden}
+.card h4{margin:5px 0;font-size:14px;height:36px;overflow:hidden}
 .badge{background:gold;color:#000;font-size:11px;padding:3px 7px;border-radius:10px;font-weight:bold}
 .watch{display:block;background:red;color:#fff;text-align:center;padding:9px;border-radius:10px;text-decoration:none;margin-top:8px;font-weight:bold;font-size:13px}
 .down{display:block;background:#00c853;color:#fff;text-align:center;padding:9px;border-radius:10px;text-decoration:none;margin-top:6px;font-weight:bold;font-size:13px}
-.loading{padding:30px;color:#aaa}
 </style>
 </head>
 <body>
 <div class="head">🎬 FAIZAN MOVIES & ANIME</div>
 <div class="search">
-<input id="q" placeholder="Search Movie / Anime...">
+<input id="q" placeholder="Search Movie / Anime..." onkeyup="doSearch()">
 <button onclick="doSearch()">🔍 Search</button>
 </div>
-
 <div class="tabs">
-<button id="b1" class="active" onclick="loadMovies('trending')">🔥 Trending Movies</button>
-<button id="b2" onclick="loadMovies('new')">🆕 New Movies</button>
-<button id="b3" onclick="loadAnime()">🍥 Anime</button>
-<button id="b4" onclick="loadAnimeTop()">🏆 Top Anime</button>
+<button id="bAll" class="active" onclick="show('All')">🔥 All</button>
+<button id="bMov" onclick="show('Movie')">🎬 Movies</button>
+<button id="bAni" onclick="show('Anime')">🍥 Anime</button>
+<button id="bAct" onclick="show('Action')">💥 Action</button>
 </div>
-
-<div id="box" class="grid"><div class="loading">Loading... Nayi Movies aa rahi hain...</div></div>
-
+<div id="box" class="grid"></div>
 <script>
-// FREE API - Jikan for Anime, TMDB ke bagair bhi chalega
-let allData = [];
+let movies=[
+{title:"Demon Slayer - Infinity Castle",cat:"Anime",score:"9.1",img:"https://image.tmdb.org/t/p/w500/1s0emrL1Xg5YpNf1a5a5a5a5.jpg",link:"Demon Slayer Infinity Castle"},
+{title:"One Piece",cat:"Anime",score:"9.0",img:"https://cdn.myanimelist.net/images/anime/6/73245.jpg",link:"One Piece anime"},
+{title:"Naruto Shippuden",cat:"Anime",score:"8.8",img:"https://cdn.myanimelist.net/images/anime/5/17407.jpg",link:"Naruto Shippuden hindi"},
+{title:"Jujutsu Kaisen",cat:"Anime",score:"8.7",img:"https://cdn.myanimelist.net/images/anime/1792/117355.jpg",link:"Jujutsu Kaisen"},
+{title:"Attack on Titan",cat:"Anime",score:"9.0",img:"https://cdn.myanimelist.net/images/anime/10/47347.jpg",link:"Attack on Titan"},
+{title:"Dragon Ball Super",cat:"Anime",score:"8.5",img:"https://cdn.myanimelist.net/images/anime/6/86797.jpg",link:"Dragon Ball Super"},
+{title:"Solo Leveling",cat:"Anime",score:"8.9",img:"https://cdn.myanimelist.net/images/anime/1812/134736.jpg",link:"Solo Leveling"},
+{title:"Death Note",cat:"Anime",score:"9.0",img:"https://cdn.myanimelist.net/images/anime/9/9453.jpg",link:"Death Note"},
+{title:"One Punch Man",cat:"Anime",score:"8.8",img:"https://cdn.myanimelist.net/images/anime/12/76049.jpg",link:"One Punch Man"},
+{title:"My Hero Academia",cat:"Anime",score:"8.4",img:"https://cdn.myanimelist.net/images/anime/10/78745.jpg",link:"My Hero Academia"},
+{title:"Pushpa 2 - The Rule",cat:"Movie",score:"8.2",img:"https://image.tmdb.org/t/p/w500/1s0emrL1Xg5YpNf1a5a5a5a5.jpg",link:"Pushpa 2 trailer"},
+{title:"Jawan",cat:"Movie",score:"7.8",img:"https://image.tmdb.org/t/p/w500/yFHHfHcUgAsjZ5Q8s8F5a5a5.jpg",link:"Jawan trailer"},
+{title:"Pathaan",cat:"Movie",score:"7.5",img:"https://image.tmdb.org/t/p/w500/gPbM0MK8CP8A174rmUwGsADNYKD.jpg",link:"Pathaan trailer"},
+{title:"Animal",cat:"Movie",score:"7.2",img:"https://image.tmdb.org/t/p/w500/hr9rjR5Q1a5a5a5a5a5a.jpg",link:"Animal movie trailer"},
+{title:"Fighter",cat:"Action",score:"7.0",img:"https://image.tmdb.org/t/p/w500/zDZow5b5a5a5a5a.jpg",link:"Fighter movie"},
+{title:"Donkey",cat:"Movie",score:"7.5",img:"https://image.tmdb.org/t/p/w500/1s0emrL1Xg5YpNf1a5a5a5a5.jpg",link:"Dunki trailer"},
+{title:"KGF Chapter 2",cat:"Action",score:"8.3",img:"https://image.tmdb.org/t/p/w500/qTkJ6kbTeSjqfH0a5a5a5.jpg",link:"KGF 2 trailer"},
+{title:"RRR",cat:"Action",score:"8.0",img:"https://image.tmdb.org/t/p/w500/nEufeZlyAOLqBLzTw8C5a5a.jpg",link:"RRR trailer"},
+{title:"Avengers Endgame",cat:"Action",score:"8.4",img:"https://image.tmdb.org/t/p/w500/or06FN3Dka5a5a5a5.jpg",link:"Avengers Endgame trailer"},
+{title:"Spider-Man No Way Home",cat:"Action",score:"8.2",img:"https://image.tmdb.org/t/p/w500/1g0dhYtq4a5a5a5a5.jpg",link:"Spider Man No Way Home"},
+];
 
-async function loadMovies(type){
-  setActive('b1');
-  document.getElementById("box").innerHTML="<div class='loading'>Movies Load Ho Rahi Hain...</div>";
-  // Demo + Auto - Yahan TMDB se aayegi, abhi sample se chal rahi hai
-  // Tum apni TMDB API KEY yahan dalo: const TMDB_KEY = "tumhari_key"
-  try{
-    // Jikan se Anime bhi Movies ki tarah show karenge taake hamesha naya data aaye
-    let res = await fetch("https://api.jikan.moe/v4/top/anime?limit=20");
-    let data = await res.json();
-    allData = data.data.map(a=>({title:a.title, img:a.images.jpg.image_url, score:a.score||"8.5", cat:"Anime", link:"https://www.youtube.com/results?search_query="+encodeURIComponent(a.title+" trailer")}));
-    // Movies ke liye extra static trending add kar dete hain
-    let extra = [
-      {title:"Pushpa 2 - New Movie 2026", img:"https://image.tmdb.org/t/p/w500/gPbM0MK8CP8A174rmUwGsADNYKD.jpg", score:"8.2", cat:"Action", link:"https://www.youtube.com/results?search_query=Pushpa+2+trailer"},
-      {title:"Demon Slayer Infinity Castle", img:"https://image.tmdb.org/t/p/w500/xUfRZnLx8fUfKN0F4JkQKjN0K0Q0.jpg", score:"9.1", cat:"Anime", link:"https://www.youtube.com/results?search_query=Demon+Slayer+Infinity+Castle"},
-    ];
-    allData = [...extra, ...allData];
-    render(allData);
-  }catch(e){
-    document.getElementById("box").innerHTML="<p>Internet Slow Hai, Dobara Try Karo</p>";
-  }
-}
-
-async function loadAnime(){
-  setActive('b3');
-  document.getElementById("box").innerHTML="<div class='loading'>Anime Load Ho Rahe Hain...</div>";
-  let res = await fetch("https://api.jikan.moe/v4/anime?q=&order_by=members&sort=desc&limit=24");
-  let data = await res.json();
-  allData = data.data.map(a=>({title:a.title, img:a.images.jpg.image_url, score:a.score||"8.5", cat:"Anime", link:"https://www.youtube.com/results?search_query="+encodeURIComponent(a.title+" hindi")}));
-  render(allData);
-}
-
-async function loadAnimeTop(){
-  setActive('b4');
-  document.getElementById("box").innerHTML="<div class='loading'>Top Anime Load Ho Rahe Hain...</div>";
-  let res = await fetch("https://api.jikan.moe/v4/top/anime?limit=24");
-  let data = await res.json();
-  allData = data.data.map(a=>({title:a.title, img:a.images.jpg.image_url, score:a.score||"8.5", cat:"Anime", link:"https://www.youtube.com/results?search_query="+encodeURIComponent(a.title+" trailer")}));
-  render(allData);
+function getImg(m){
+  // Agar image na khule to ye wali photo dikhao
+  return m.img;
 }
 
 function render(list){
   let h="";
   list.forEach(m=>{
-    h+=`<div class="card"><img src="${m.img}" loading="lazy"><div><span class="badge">⭐ ${m.score} | ${m.cat}</span><h4>${m.title}</h4><a class="watch" href="${m.link}" target="_blank">▶ Watch Trailer</a><a class="down" href="${m.link}" target="_blank">⬇ Download / Watch</a></div></div>`;
+    let yt="https://www.youtube.com/results?search_query="+encodeURIComponent(m.link);
+    h+=`<div class="card">
+    <img src="${m.img}" onerror="this.src='https://via.placeholder.com/300x400/FF0000/FFFFFF?text='+encodeURIComponent(m.title)" loading="lazy">
+    <div><span class="badge">⭐ ${m.score} | ${m.cat}</span><h4>${m.title}</h4>
+    <a class="watch" href="${yt}" target="_blank">▶ Watch Trailer</a>
+    <a class="down" href="${yt}" target="_blank">⬇ Download / Watch</a>
+    </div></div>`;
   });
   document.getElementById("box").innerHTML=h;
 }
-
+function show(cat){
+  document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+  if(cat=='All') document.getElementById('bAll').classList.add('active');
+  if(cat=='Movie') document.getElementById('bMov').classList.add('active');
+  if(cat=='Anime') document.getElementById('bAni').classList.add('active');
+  if(cat=='Action') document.getElementById('bAct').classList.add('active');
+  if(cat=='All') render(movies);
+  else render(movies.filter(m=>m.cat==cat || (cat=='Movie' && m.cat=='Action')));
+}
 function doSearch(){
   let q=document.getElementById("q").value.toLowerCase();
-  if(!q) return;
-  // Live Search - Jikan API se naya Anime search
-  fetch("https://api.jikan.moe/v4/anime?q="+encodeURIComponent(q)+"&limit=12")
-  .then(r=>r.json()).then(d=>{
-    let list = d.data.map(a=>({title:a.title, img:a.images.jpg.image_url, score:a.score||"8.0", cat:"Anime", link:"https://www.youtube.com/results?search_query="+encodeURIComponent(a.title)}));
-    if(list.length==0) list = allData.filter(m=>m.title.toLowerCase().includes(q));
-    render(list);
-  });
+  if(!q){ show('All'); return; }
+  let f=movies.filter(m=>m.title.toLowerCase().includes(q));
+  if(f.length==0){
+    document.getElementById("box").innerHTML=`<p style="grid-column:span 2">Koi result nahi mila.<br><a style="color:red" href="https://www.youtube.com/results?search_query=${encodeURIComponent(q)}" target="_blank">YouTube pe "${q}" dekho - Click Karo</a></p>`;
+  } else render(f);
 }
-
-function setActive(id){
-  document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-loadMovies('trending');
+// Foran dikhao - Loading ka wait nahi
+show('All');
 </script>
-<p style="color:#777;font-size:12px;padding:10px">Faizan Developer | Gujranwala | Gari Booking: 0307 064 7564<br>Note: Download button official / legal source pe le jata hai</p>
+<p style="color:#777;font-size:12px;padding:10px">Faizan Developer | Gujranwala | Gari Booking: 0307 064 7564</p>
 </body>
-  </html>
+</html>
