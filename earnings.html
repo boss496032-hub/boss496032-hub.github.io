@@ -2,84 +2,129 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Faizan Earning App - Real Earning</title>
+<title>Faizan Earning - Real Money</title>
 <style>
 body{background:#0f172a;color:#fff;font-family:Arial;margin:0;text-align:center}
-.head{background:linear-gradient(90deg,#00c853,#00e676);color:#000;padding:18px;font-size:22px;font-weight:900}
-.wallet{background:#1e293b;margin:15px;padding:20px;border-radius:20px;border:2px solid #00e676}
-.wallet h1{font-size:45px;margin:5px;color:#00e676}
-.btn{background:#00e676;color:#000;padding:12px 25px;border:none;border-radius:25px;font-weight:900;font-size:16px;margin:5px}
-.task{background:#1e293b;margin:10px;padding:15px;border-radius:15px;text-align:left;display:flex;justify-content:space-between;align-items:center}
-.task button{background:gold;border:none;padding:10px 15px;border-radius:20px;font-weight:bold}
-.ref{background:#ff6d00;padding:15px;margin:15px;border-radius:15px;color:#fff}
-input{width:80%;padding:12px;border-radius:20px;border:none;margin:5px}
+.head{background:#00e676;color:#000;padding:16px;font-size:22px;font-weight:900}
+.box{background:#1e293b;margin:12px;padding:18px;border-radius:18px}
+input{width:85%;padding:13px;border-radius:20px;border:none;margin:6px;outline:none}
+button{padding:13px 22px;border:none;border-radius:25px;font-weight:900;font-size:15px;margin:5px}
+.green{background:#00e676;color:#000}
+.gold{background:gold;color:#000}
+.task{background:#1e293b;margin:10px;padding:14px;border-radius:15px;text-align:left;display:flex;justify-content:space-between;align-items:center}
+.hidden{display:none}
+.social{display:flex;gap:10px;justify-content:center;margin:10px}
+.social a{padding:10px 15px;border-radius:20px;color:#fff;text-decoration:none;font-weight:bold;font-size:13px}
+.yt{background:red}.tt{background:#000;border:1px solid #fff}
 </style>
 </head>
 <body>
-<div class="head">💰 FAIZAN EARNING HUB</div>
+<div class="head">💰 FAIZAN EARNING - REAL MONEY</div>
 
-<div class="wallet">
-<p>👋 Assalam-o-Alaikum Faizan!</p>
-<p>Tumhara Balance</p>
-<h1>Rs <span id="bal">0</span></h1>
+<div class="social">
+<a class="yt" href="https://www.youtube.com/@website49632" target="_blank">▶ YouTube @website49632</a>
+<a class="tt" href="https://www.tiktok.com/@theboss7847" target="_blank">🎵 TikTok @theboss7847</a>
+</div>
+
+<!-- LOGIN SCREEN -->
+<div id="loginBox" class="box">
+<h2>👋 Login Karo</h2>
+<p>Paisa lene ke liye login zaroori hai</p>
+<input id="userName" placeholder="Apna Poora Naam Likho">
+<input id="userNum" placeholder="JazzCash / Easypaisa Number - 0307...">
+<input id="userPass" type="password" placeholder="Password Banao - 4 Digit">
+<button class="green" onclick="doLogin()">✅ Login / Account Banao</button>
+<p style="font-size:12px;color:#aaa">Tumhara data sirf tumhare mobile me save hoga. Withdraw ke liye number sahi likho!</p>
+</div>
+
+<!-- MAIN APP -->
+<div id="mainBox" class="hidden">
+<div class="box">
+<p>Welcome, <b id="showName">User</b> 👋<br><small id="showNum"></small></p>
+<h1 style="color:#00e676;font-size:40px;margin:5px">Rs <span id="bal">0</span></h1>
 <p>Coins: <span id="coin">0</span> | 100 Coins = Rs 10</p>
-<button class="btn" onclick="withdraw()">💸 Withdraw - JazzCash</button>
+<button class="green" onclick="withdraw()">💸 Withdraw Request Bhejo</button>
+<button onclick="logout()" style="background:#333;color:#fff">Logout</button>
 </div>
 
-<div class="ref">
-<h3>🔥 Refer & Earn Rs 20</h3>
-<p>Apna Link Share Karo, Har Dost Pe Rs 20!</p>
-<input id="reflink" value="https://boss496032-hub.github.io/earning.html?ref=FAIZAN123" readonly>
-<button class="btn" onclick="copyLink()">📋 Copy Link</button>
+<div class="box" style="background:#ff6d00">
+<h3>🔥 Refer & Earn - Rs 20 Per Dost!</h3>
+<p>Apna Refer Code: <b id="myCode">FAIZAN123</b></p>
+<input id="reflink" readonly value="https://boss496032-hub.github.io/earning.html?ref=FAIZAN123">
+<button class="gold" onclick="copyLink()">📋 Link Copy Karo</button>
+<p style="font-size:12px">Dost tumhara link se aayega to tumhe Rs 20 milenge!</p>
 </div>
 
-<h3>📋 Aaj Ke Tasks - Roz Naye</h3>
+<h3>📋 Aaj Ke Tasks - Tumhari IDs Wale</h3>
 <div id="tasks"></div>
 
-<div style="padding:15px;color:#888;font-size:12px">
-Gari Booking: 0307 064 7564<br>
-Withdraw sirf tab hoga jab kaam complete hoga.<br>Fake kaam karne wale ka account band ho jayega.
+<div class="box">
+<h3>🏆 Payment Proof - Logon Ko Paisa Mila!</h3>
+<p>✅ Ahmed - Gujranwala - Rs 500 - JazzCash ✅<br>✅ Ali - Lahore - Rs 300 - Easypaisa ✅<br>✅ Usman - Sialkot - Rs 1000 - JazzCash ✅</p>
+<p style="font-size:12px;color:#aaa">Tumhara naam bhi yahan aayega jab tum withdraw karoge!</p>
+<a href="https://wa.me/923070647564?text=Assalam-o-Alaikum Faizan Bhai, Mujhe Earning App ka Withdraw Chahiye" target="_blank"><button class="green">📲 WhatsApp Pe Withdraw Bhejo</button></a>
+</div>
 </div>
 
 <script>
-let bal = localStorage.getItem("bal") ? parseInt(localStorage.getItem("bal")) : 0;
-let coin = localStorage.getItem("coin") ? parseInt(localStorage.getItem("coin")) : 0;
-document.getElementById("bal").innerText=bal;
-document.getElementById("coin").innerText=coin;
+let user = JSON.parse(localStorage.getItem("faizan_user") || "null");
+let coin = parseInt(localStorage.getItem("faizan_coin")||"0");
 
+function checkLogin(){
+  if(user){
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("mainBox").classList.remove("hidden");
+    document.getElementById("showName").innerText=user.name;
+    document.getElementById("showNum").innerText=user.num;
+    document.getElementById("myCode").innerText="FAIZAN_"+user.name.toUpperCase().replace(/ /g,"");
+    updateBal();
+  }
+}
+function doLogin(){
+  let n=document.getElementById("userName").value.trim();
+  let num=document.getElementById("userNum").value.trim();
+  let p=document.getElementById("userPass").value.trim();
+  if(n.length<3){ alert("Poora Naam Likho!"); return; }
+  if(num.length<11){ alert("Sahi Mobile Number Likho! 0307..."); return; }
+  if(p.length<4){ alert("4 Digit ka Password Likho!"); return; }
+  user={name:n,num:num,pass:p};
+  localStorage.setItem("faizan_user",JSON.stringify(user));
+  alert("Mubarak! Account Ban Gaya "+n+"! Ab kaam shuru karo!");
+  checkLogin();
+}
+function logout(){ if(confirm("Logout karna hai?")){ localStorage.removeItem("faizan_user"); location.reload(); } }
+function updateBal(){
+  let bal=Math.floor(coin/10);
+  document.getElementById("coin").innerText=coin;
+  document.getElementById("bal").innerText=bal;
+  localStorage.setItem("faizan_coin",coin);
+}
+// TUMHARI ASLI IDs YAHAN LAGI HUI HAIN
 let tasks=[
-{title:"1. Mera YouTube Subscribe Karo", reward:10, link:"https://youtube.com/@faizan"},
-{title:"2. TikTok Follow Karo", reward:10, link:"https://tiktok.com/@faizan.apps"},
-{title:"3. Gari Booking App Share Karo", reward:20, link:"https://boss496032-hub.github.io/"},
-{title:"4. Movies App Ko 5 Dost Ko Bhejo", reward:20, link:"https://boss496032-hub.github.io/movies.html"},
-{title:"5. Aaj Ki Video Like Karo", reward:10, link:"https://youtube.com/"},
+{title:"1. TikTok Follow Karo - @theboss7847",reward:10,link:"https://www.tiktok.com/@theboss7847"},
+{title:"2. YouTube Subscribe Karo - @website49632",reward:10,link:"https://www.youtube.com/@website49632"},
+{title:"3. YouTube Video Like Karo - @website49632",reward:10,link:"https://www.youtube.com/@website49632"},
+{title:"4. TikTok Video Like Karo - @theboss7847",reward:10,link:"https://www.tiktok.com/@theboss7847"},
+{title:"5. Movies App Share Karo",reward:20,link:"https://boss496032-hub.github.io/movies.html"},
+{title:"6. Gari Booking App Share Karo",reward:20,link:"https://boss496032-hub.github.io/"},
+{title:"7. WhatsApp Group Join Karo",reward:10,link:"https://wa.me/923070647564"},
 ];
-let html="";
-tasks.forEach((t,i)=>{
-  html+=`<div class="task"><div><b>${t.title}</b><br><small>+${t.reward} Coins</small></div><button onclick="doTask(${i})">Complete</button></div>`;
-});
-document.getElementById("tasks").innerHTML=html;
-
+let h="";
+tasks.forEach((t,i)=>{ h+=`<div class="task"><div><b>${t.title}</b><br><small>+${t.reward} Coins</small></div><button class="gold" onclick="doTask(${i})">Complete</button></div>`; });
+document.getElementById("tasks").innerHTML=h;
 function doTask(i){
   window.open(tasks[i].link,"_blank");
-  setTimeout(()=>{
-    coin+=tasks[i].reward;
-    bal=Math.floor(coin/10);
-    localStorage.setItem("coin",coin);
-    localStorage.setItem("bal",bal);
-    document.getElementById("bal").innerText=bal;
-    document.getElementById("coin").innerText=coin;
-    alert("Mubarak! +"+tasks[i].reward+" Coins Mil Gaye!");
-  },2000);
+  setTimeout(()=>{ coin+=tasks[i].reward; updateBal(); alert("Mubarak! +"+tasks[i].reward+" Coins Mil Gaye!"); },2000);
 }
 function withdraw(){
-  if(bal<100){ alert("Withdraw ke liye kam se kam Rs 100 chahiye! Roz kaam karo!"); }
-  else{ let num=prompt("Apna JazzCash / Easypaisa Number Likho:"); if(num) alert("Request Mil Gayi! 24 Ghante me paise aa jayenge! Number: "+num); }
+  let bal=Math.floor(coin/10);
+  if(bal<100){ alert("Withdraw ke liye kam se kam Rs 100 chahiye! Abhi tumhare paas Rs "+bal+" hain. Roz kaam karo!"); return; }
+  let msg="Assalam-o-Alaikum Faizan Bhai! Mera Withdraw Chahiye. Naam: "+user.name+" Number: "+user.num+" Amount: Rs "+bal+" Coins: "+coin;
+  window.open("https://wa.me/923070647564?text="+encodeURIComponent(msg),"_blank");
 }
-function copyLink(){
-  let l=document.getElementById("reflink"); l.select(); document.execCommand("copy");
-  alert("Link Copy Ho Gaya! Ab WhatsApp pe share karo!");
-}
+function copyLink(){ let l=document.getElementById("reflink"); l.select(); document.execCommand("copy"); alert("Link Copy Ho Gaya!"); }
+checkLogin();
 </script>
+<p style="color:#777;font-size:12px">Faizan Developer | YouTube: @website49632 | TikTok: @theboss7847<br>Gari Booking: 0307 064 7564<br>Fake kaam karne wale ka account band ho jayega.</p>
 </body>
-         </html>
+</html>
