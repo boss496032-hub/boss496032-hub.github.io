@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Faizan Movies & Anime - Auto Update</title>
+<style>
+body{background:#0a0a0a;color:#fff;font-family:Arial;margin:0;text-align:center}
+.head{background:linear-gradient(90deg,red,#ff0066);padding:16px;font-size:22px;font-weight:900;position:sticky;top:0;z-index:10}
+.search{padding:12px;position:sticky;top:58px;background:#0a0a0a;z-index:9}
+input{width:68%;padding:13px;border-radius:25px;border:none;outline:none}
+button{padding:13px 18px;background:red;color:#fff;border:none;border-radius:25px;font-weight:bold}
+.tabs{display:flex;gap:8px;overflow:auto;padding:10px;justify-content:center}
+.tabs button{background:#222;color:#fff;border:1px solid #333;padding:9px 16px;border-radius:20px}
+.tabs button.active{background:red}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}
+.card{background:#1a1a1a;border-radius:15px;overflow:hidden;text-align:left}
+.card img{width:100%;height:220px;object-fit:cover}
+.card div{padding:10px}
+.card h4{margin:5px 0;font-size:14px;height:34px;overflow:hidden}
+.badge{background:gold;color:#000;font-size:11px;padding:3px 7px;border-radius:10px;font-weight:bold}
+.watch{display:block;background:red;color:#fff;text-align:center;padding:9px;border-radius:10px;text-decoration:none;margin-top:8px;font-weight:bold;font-size:13px}
+.down{display:block;background:#00c853;color:#fff;text-align:center;padding:9px;border-radius:10px;text-decoration:none;margin-top:6px;font-weight:bold;font-size:13px}
+.loading{padding:30px;color:#aaa}
+</style>
+</head>
+<body>
+<div class="head">🎬 FAIZAN MOVIES & ANIME</div>
+<div class="search">
+<input id="q" placeholder="Search Movie / Anime...">
+<button onclick="doSearch()">🔍 Search</button>
+</div>
+
+<div class="tabs">
+<button id="b1" class="active" onclick="loadMovies('trending')">🔥 Trending Movies</button>
+<button id="b2" onclick="loadMovies('new')">🆕 New Movies</button>
+<button id="b3" onclick="loadAnime()">🍥 Anime</button>
+<button id="b4" onclick="loadAnimeTop()">🏆 Top Anime</button>
+</div>
+
+<div id="box" class="grid"><div class="loading">Loading... Nayi Movies aa rahi hain...</div></div>
+
+<script>
+// FREE API - Jikan for Anime, TMDB ke bagair bhi chalega
+let allData = [];
+
+async function loadMovies(type){
+  setActive('b1');
+  document.getElementById("box").innerHTML="<div class='loading'>Movies Load Ho Rahi Hain...</div>";
+  // Demo + Auto - Yahan TMDB se aayegi, abhi sample se chal rahi hai
+  // Tum apni TMDB API KEY yahan dalo: const TMDB_KEY = "tumhari_key"
+  try{
+    // Jikan se Anime bhi Movies ki tarah show karenge taake hamesha naya data aaye
+    let res = await fetch("https://api.jikan.moe/v4/top/anime?limit=20");
+    let data = await res.json();
+    allData = data.data.map(a=>({title:a.title, img:a.images.jpg.image_url, score:a.score||"8.5", cat:"Anime", link:"https://www.youtube.com/results?search_query="+encodeURIComponent(a.title+" trailer")}));
+    // Movies ke liye extra static trending add kar dete hain
+    let extra = [
+      {title:"Pushpa 2 - New Movie 2026", img:"https://image.tmdb.org/t/p/w500/gPbM0MK8CP8A174rmUwGsADNYKD.jpg", score:"8.2", cat:"Action", link:"https://www.youtube.com/results?search_query=Pushpa+2+trailer"},
+      {title:"Demon Slayer Infinity Castle", img:"https://image.tmdb.org/t/p/w500/xUfRZnLx8fUfKN0F4JkQKjN0K0Q0.jpg", score:"9.1", cat:"Anime", link:"https://www.youtube.com/results?search_query=Demon+Slayer+Infinity+Castle"},
+    ];
+    allData = [...extra, ...allData];
+    render(allData);
+  }catch(e){
+    document.getElementById("box").innerHTML="<p>Internet Slow Hai, Dobara Try Karo</p>";
+  }
+}
+
+async function loadAnime(){
+  setActive('b3');
+  document.getElementById("box").innerHTML="<div class='loading'>Anime Load Ho Rahe Hain...</div>";
+  let res = await fetch("https://api.jikan.moe/v4/anime?q=&order_by=members&sort=desc&limit=24");
+  let data = await res.json();
+  allData = data.data.map(a=>({title:a.title, img:a.images.jpg.image_url, score:a.score||"8.5", cat:"Anime", link:"https://www.youtube.com/results?search_query="+encodeURIComponent(a.title+" hindi")}));
+  render(allData);
+}
+
+async function loadAnimeTop(){
+  setActive('b4');
+  document.getElementById("box").innerHTML="<div class='loading'>Top Anime Load Ho Rahe Hain...</div>";
+  let res = await fetch("https://api.jikan.moe/v4/top/anime?limit=24");
+  let data = await res.json();
+  allData = data.data.map(a=>({title:a.title, img:a.images.jpg.image_url, score:a.score||"8.5", cat:"Anime", link:"https://www.youtube.com/results?search_query="+encodeURIComponent(a.title+" trailer")}));
+  render(allData);
+}
+
+function render(list){
+  let h="";
+  list.forEach(m=>{
+    h+=`<div class="card"><img src="${m.img}" loading="lazy"><div><span class="badge">⭐ ${m.score} | ${m.cat}</span><h4>${m.title}</h4><a class="watch" href="${m.link}" target="_blank">▶ Watch Trailer</a><a class="down" href="${m.link}" target="_blank">⬇ Download / Watch</a></div></div>`;
+  });
+  document.getElementById("box").innerHTML=h;
+}
+
+function doSearch(){
+  let q=document.getElementById("q").value.toLowerCase();
+  if(!q) return;
+  // Live Search - Jikan API se naya Anime search
+  fetch("https://api.jikan.moe/v4/anime?q="+encodeURIComponent(q)+"&limit=12")
+  .then(r=>r.json()).then(d=>{
+    let list = d.data.map(a=>({title:a.title, img:a.images.jpg.image_url, score:a.score||"8.0", cat:"Anime", link:"https://www.youtube.com/results?search_query="+encodeURIComponent(a.title)}));
+    if(list.length==0) list = allData.filter(m=>m.title.toLowerCase().includes(q));
+    render(list);
+  });
+}
+
+function setActive(id){
+  document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+loadMovies('trending');
+</script>
+<p style="color:#777;font-size:12px;padding:10px">Faizan Developer | Gujranwala | Gari Booking: 0307 064 7564<br>Note: Download button official / legal source pe le jata hai</p>
+</body>
+  </html>
