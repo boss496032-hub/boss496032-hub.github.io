@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>FAIZAN FIRE MAX - High Level</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#fff;font-family:Arial;overflow:hidden}
+#hud{position:fixed;top:0;left:0;right:0;background:rgba(0,0,0,.85);padding:8px 10px;display:flex;justify-content:space-between;font-weight:900;font-size:13px;z-index:20;border-bottom:2px solid #00e676}
+#game{width:100vw;height:100vh;background:#2e7d32;position:relative;overflow:hidden}
+.tree{position:absolute;font-size:30px}.house{position:absolute;background:#8d6e63;border:3px solid #5d4037;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px}
+.loot{position:absolute;width:32px;height:32px;background:gold;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;border:2px solid #fff;z-index:3}
+#player{position:absolute;width:42px;height:42px;background:#00e676;border:3px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;z-index:10;box-shadow:0 0 15px #00e676}
+.enemy{position:absolute;width:38px;height:38px;background:#ff1744;border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;z-index:5}
+.bullet{position:absolute;width:9px;height:9px;background:yellow;border-radius:50%;z-index:8}
+#zone{position:absolute;border:4px solid #a855f7;border-radius:50%;pointer-events:none;z-index:4;box-shadow:0 0 0 9999px rgba(168,85,247,.25)}
+#minimap{position:fixed;top:45px;right:8px;width:90px;height:90px;background:rgba(0,0,0,.7);border:2px solid #fff;border-radius:10px;z-index:20;overflow:hidden}
+#killfeed{position:fixed;top:45px;left:8px;background:rgba(0,0,0,.7);padding:6px 10px;border-radius:10px;font-size:11px;z-index:20;max-width:180px}
+#controls{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-between;padding:10px;z-index:20}
+#joy{width:110px;height:110px;background:rgba(255,255,255,.25);border-radius:50%;position:relative}
+#knob{width:50px;height:50px;background:#fff;border-radius:50%;position:absolute;left:30px;top:30px}
+.btn{width:70px;height:70px;border-radius:50%;border:3px solid #fff;color:#fff;font-size:26px;font-weight:900}
+#fire{background:red}#medi{background:#fff;color:#000;font-size:22px}#jump{background:#ff9800;font-size:14px}
+#lobby{position:fixed;inset:0;background:linear-gradient(180deg,#000,#1a0000);z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center}
+button.main{padding:14px 28px;border:none;border-radius:25px;font-weight:900;font-size:16px;margin:6px}
+.green{background:#00e676}.gold{background:gold}.red{background:red;color:#fff}
+.char{font-size:38px;padding:10px;border:2px solid #333;border-radius:15px;margin:4px;background:#222;display:inline-block}
+.char.sel{border-color:#00e676;background:#003d1f}
+.gunBtn{padding:10px 14px;border:2px solid #555;border-radius:15px;background:#222;color:#fff;font-weight:900;margin:3px}
+.gunBtn.sel{background:#00e676;color:#000;border-color:#00e676}
+</style>
+</head>
+<body>
+<div id="hud"><span>🔥 FAIZAN FIRE MAX</span><span>❤️ <span id="hp">100</span> | 🛡️ <span id="armor">0</span></span><span>Alive: <span id="alive">50</span></span><span>🏆 <span id="kills">0</span></span></div>
+<div id="killfeed">📢 Welcome To Bermuda!</div>
+<div id="minimap"><div id="miniP" style="position:absolute;width:8px;height:8px;background:#00e676;border-radius:50%;left:40px;top:40px"></div><div id="miniZ" style="position:absolute;border:2px solid #a855f7;border-radius:50%;width:70px;height:70px;left:10px;top:10px"></div></div>
+<div id="game"><div id="zone"></div><div id="player">🧍</div></div>
+<div id="controls"><div id="joy"><div id="knob"></div></div><div style="display:flex;gap:8px;align-items:end"><button class="btn" id="medi" onclick="useMedi()">💊</button><button class="btn" id="jump" onclick="doJump()">JUMP</button><button class="btn" id="fire" onclick="shoot()">🔫</button></div></div>
+
+<div id="lobby">
+<h1 style="font-size:38px">🔥 FAIZAN FIRE <span style="color:#00e676">MAX</span> 🔥</h1>
+<p style="color:#aaa;margin:8px">High Level Battle Royale | 50 Players | Bermuda Map</p>
+<p style="font-size:12px">YouTube: @website49632 | TikTok: @theboss7847</p>
+<h3 style="margin-top:12px">Character Chuno:</h3>
+<div><span class="char sel" onclick="pickChar(this,'🧍')">🧍</span><span class="char" onclick="pickChar(this,'🦸')">🦸</span><span class="char" onclick="pickChar(this,'🥷')">🥷</span><span class="char" onclick="pickChar(this,'🤖')">🤖</span><span class="char" onclick="pickChar(this,'👽')">👽</span></div>
+<h3 style="margin-top:10px">Gun Chuno:</h3>
+<div><button class="gunBtn sel" onclick="pickGun(this,'AK47',12)">AK47</button><button class="gunBtn" onclick="pickGun(this,'MP40',8)">MP40</button><button class="gunBtn" onclick="pickGun(this,'M1887',35)">M1887</button><button class="gunBtn" onclick="pickGun(this,'AWM',60)">AWM 🎯</button></div>
+<p id="gunInfo" style="margin:8px;color:#00e676">Gun: AK47 | Damage: 12 | Range: Medium</p>
+<button class="main green" onclick="startGame()">🪂 PLANE SE JUMP - START</button>
+<button class="main gold" onclick="window.location.href='index.html'">🏠 HOME</button>
+<p style="font-size:11px;color:#777;margin-top:10px">Joystick se chalo • 🔫 se fire • 💊 se health • Zone se bacho!</p>
+</div>
+
+<script>
+let px=200, py=300, hp=100, armor=0, kills=0, alive=50, playing=false, myChar="🧍", myGun="AK47", dmg=12, mediCount=2, zoneX=200, zoneY=300, zoneR=350, enemies=[], loots=[];
+let game=document.getElementById("game");
+function pickChar(el,c){ document.querySelectorAll('.char').forEach(x=>x.classList.remove('sel')); el.classList.add('sel'); myChar=c; }
+function pickGun(el,g,d){ document.querySelectorAll('.gunBtn').forEach(x=>x.classList.remove('sel')); el.classList.add('sel'); myGun=g; dmg=d; document.getElementById("gunInfo").innerText="Gun: "+g+" | Damage: "+d+" | Ready!"; }
+function addFeed(t){ let k=document.getElementById("killfeed"); k.innerHTML=t+"<br>"+k.innerHTML; }
+function startGame(){
+  document.getElementById("lobby").style.display="none";
+  document.getElementById("player").innerText=myChar;
+  playing=true; hp=100; armor=0; kills=0; alive=50; mediCount=2;
+  updateHUD();
+  // Map banao - Ghar, Ped
+  let houses=[[50,120,"PEAK"],[300,80,"FACTORY"],[80,350,"BIMA"],[320,350,"CLOCK TOWER"]];
+  houses.forEach(h=>{ let d=document.createElement("div"); d.className="house"; d.style.left=h[0]+"px"; d.style.top=h[1]+"px"; d.style.width="90px"; d.style.height="60px"; d.innerText=h[2]; game.appendChild(d); });
+  for(let i=0;i<15;i++){ let t=document.createElement("div"); t.className="tree"; t.innerText="🌳"; t.style.left=Math.random()*(window.innerWidth-40)+"px"; t.style.top=60+Math.random()*(window.innerHeight-150)+"px"; game.appendChild(t); }
+  // Loot
+  for(let i=0;i<8;i++) spawnLoot();
+  // Enemies - 49
+  for(let i=0;i<12;i++) spawnEnemy();
+  setInterval(gameLoop,40);
+  setInterval(shrinkZone,8000);
+  setInterval(autoEnemyFight,2000);
+  addFeed("🪂 50 Players Bermuda me utar gaye!");
+}
+function spawnLoot(){
+  let types=["💊","🛡️","🔫","🎒"]; let t=types[Math.floor(Math.random()*types.length)];
+  let l=document.createElement("div"); l.className="loot"; l.innerText=t;
+  let x=Math.random()*(window.innerWidth-50), y=80+Math.random()*(window.innerHeight-150);
+  l.style.left=x+"px"; l.style.top=y+"px"; game.appendChild(l);
+  loots.push({el:l,x:x,y:y,type:t});
+}
+function spawnEnemy(){
+  let e=document.createElement("div"); e.className="enemy"; e.innerText=["👾","🤖","💀","👹"][Math.floor(Math.random()*4)];
+  let x=Math.random()*(window.innerWidth-50), y=80+Math.random()*(window.innerHeight-150);
+  e.style.left=x+"px"; e.style.top=y+"px"; game.appendChild(e);
+  enemies.push({el:e,x:x,y:y,hp:100,alive:true});
+}
+function updateHUD(){ document.getElementById("hp").innerText=Math.max(0,Math.floor(hp)); document.getElementById("armor").innerText=armor; document.getElementById("alive").innerText=alive; document.getElementById("kills").innerText=kills; document.getElementById("miniP").style.left=(px/window.innerWidth*90)+"px"; document.getElementById("miniP").style.top=(py/window.innerHeight*90)+"px"; }
+function useMedi(){ if(mediCount<=0){alert("Medikit khatam! Loot se uthao!");return;} if(hp>=100){alert("Health full hai!");return;} mediCount--; hp=Math.min(100,hp+40); updateHUD(); addFeed("💊 Tumne Medikit lagaya +40 HP"); }
+function doJump(){ py=Math.max(60,py-60); document.getElementById("player").style.top=py+"px"; }
+function shoot(){
+  if(!playing) return;
+  // Sab se paas wala enemy
+  let near=null, best=400;
+  enemies.forEach(en=>{ let d=Math.sqrt((en.x-px)**2+(en.y-py)**2); if(d<best){best=d;near=en;} });
+  if(!near){ addFeed("⚠️ Koi enemy range me nahi!"); return; }
+  let b=document.createElement("div"); b.className="bullet"; b.style.left=(px+18)+"px"; b.style.top=(py+18)+"px"; game.appendChild(b);
+  let bx=px, by=py, tx=near.x, ty=near.y;
+  let iv=setInterval(()=>{
+    bx+=(tx-bx)*0.25; by+=(ty-by)*0.25; b.style.left=bx+"px"; b.style.top=by+"px";
+    if(Math.abs(bx-tx)<18 && Math.abs(by-ty)<18){ clearInterval(iv); if(b.parentNode) b.remove();
+      near.hp-=dmg; near.el.style.transform="scale(1.2)";
+      setTimeout(()=>near.el.style.transform="scale(1)",100);
+      if(near.hp<=0){ if(near.el.parentNode) near.el.remove(); enemies=enemies.filter(e=>e!==near); kills++; alive--; updateHUD(); addFeed("🔫 Tumne "+near.el.innerText+" ko mara! +1 Kill"); if(Math.random()>0.6) spawnLoot(); if(alive<=1) winGame(); else if(enemies.length<8) spawnEnemy(); }
+    }
+  },25);
+}
+function shrinkZone(){
+  if(!playing) return;
+  zoneR=Math.max(60,zoneR-60); zoneX=window.innerWidth/2; zoneY=window.innerHeight/2;
+  let z=document.getElementById("zone"); z.style.left=(zoneX-zoneR)+"px"; z.style.top=(zoneY-zoneR)+"px"; z.style.width=(zoneR*2)+"px"; z.style.height=(zoneR*2)+"px";
+  addFeed("🟣 Zone chhota ho raha hai! Zone me jao!");
+}
+function autoEnemyFight(){
+  if(!playing) return;
+  // Enemies aapas me ladenge
+  if(Math.random()>0.5 && alive>2){ alive--; updateHUD(); let names=["Raja","Ali","Usman","Bilal","Ahmed"]; addFeed("💀 "+names[Math.floor(Math.random()*names.length)]+" mar gaya - Zone me"); if(alive<=1) winGame(); }
+}
+function gameLoop(){
+  if(!playing) return;
+  // Player move - Joystick
+  // Loot uthao
+  loots.forEach((l,i)=>{
+    if(Math.abs(px-l.x)<30 && Math.abs(py-l.y)<30){
+      if(l.el.parentNode) l.el.remove(); loots.splice(i,1);
+      if(l.type=="💊"){ mediCount++; addFeed("💊 Medikit mila! Total: "+mediCount); }
+      if(l.type=="🛡️"){ armor=Math.min(100,armor+30); addFeed("🛡️ Armor +30!"); }
+      if(l.type=="🔫"){ dmg+=5; addFeed("🔫 Gun Upgrade! Damage +5"); }
+      if(l.type=="🎒"){ hp=Math.min(100,hp+20); addFeed("🎒 Loot me Health +20"); }
+      updateHUD();
+    }
+  });
+  // Enemies move
+  enemies.forEach(en=>{
+    let dx=px-en.x, dy=py-en.y, d=Math.sqrt(dx*dx+dy*dy);
+    if(d>60){ en.x+=dx/d*1.4; en.y+=dy/d*1.4; en.el.style.left=en.x+"px"; en.el.style.top=en.y+"px"; }
+    if(d<35){
+      let dam=0.6; if(armor>0){ armor-=dam; dam=0.2; } hp-=dam; updateHUD();
+      if(hp<=0){ loseGame(); }
+    }
+  });
+  // Zone damage
+  let zd=Math.sqrt((px-zoneX)**2+(py-zoneY)**2);
+  if(zd>zoneR){ hp-=0.4; updateHUD(); if(hp<=0) loseGame(); }
+  // Player update
+  let p=document.getElementById("player"); p.style.left=px+"px"; p.style.top=py+"px";
+}
+let joy=document.getElementById("joy"), knob=document.getElementById("knob");
+joy.addEventListener("touchstart",e=>{});
+joy.addEventListener("touchmove",e=>{
+  let t=e.touches[0], r=joy.getBoundingClientRect();
+  let dx=t.clientX-(r.left+55), dy=t.clientY-(r.top+55);
+  knob.style.left=(30+dx*0.4)+"px"; knob.style.top=(30+dy*0.4)+"px";
+  px=Math.max(0,Math.min(window.innerWidth-40,px+dx*0.25)); py=Math.max(55,Math.min(window.innerHeight-40,py+dy*0.25));
+});
+joy.addEventListener("touchend",()=>{ knob.style.left="30px"; knob.style.top="30px"; });
+document.addEventListener("keydown",e=>{
+  if(e.key=="w") py-=12; if(e.key=="s") py+=12; if(e.key=="a") px-=12; if(e.key=="d") px+=12; if(e.key==" ") shoot(); if(e.key=="f") useMedi();
+});
+function winGame(){
+  playing=false;
+  let coins=parseInt(localStorage.getItem("faizan_coin")||"0")+500;
+  localStorage.setItem("faizan_coin",coins);
+  alert("🏆🏆🏆 BOOYAH! BOOYAH! 🏆🏆🏆\nTum #1 Ho! 50 me se jeet gaye!\n+500 Coins Earning App Me Mil Gaye!");
+  location.reload();
+}
+function loseGame(){
+  playing=false;
+  alert("💀 Tum #"+alive+" pe khatam hue!\nKills: "+kills+"\nDobara try karo, BOOYAH karo!");
+  location.reload();
+}
+// Initial zone
+let z0=document.getElementById("zone"); z0.style.left="0px"; z0.style.top="40px"; z0.style.width="100vw"; z0.style.height="100vh";
+</script>
+</body>
+  </html>
