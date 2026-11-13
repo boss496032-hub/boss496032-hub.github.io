@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ur" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FAIZAN SOCIAL - Like, Follow Karke Paisa Kamao!</title>
+<meta name="description" content="FAIZAN SOCIAL - Like, Follow, Comment karke coins kamao! Roz 100 coins FREE! Faizan Apps Dina, Punjab" />
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#fff;font-family:Arial}
+.top{background:linear-gradient(90deg,#00e676,#00b0ff);padding:15px;text-align:center;color:#000}
+.top h1{font-size:28px}
+.top p{font-size:13px;font-weight:700}
+.stats{display:flex;justify-content:space-around;background:#111;padding:12px;margin:10px;border-radius:15px;text-align:center}
+.stats b{color:gold;font-size:18px;display:block}
+.stats span{font-size:11px;color:#aaa}
+.box{background:#1e1e1e;margin:10px;padding:15px;border-radius:18px;border:1px solid #333}
+.box h2{color:#00e676;font-size:18px;margin-bottom:8px}
+input{width:100%;padding:13px;border-radius:25px;border:2px solid #00e676;background:#222;color:#fff;font-size:15px;margin:6px 0;text-align:center}
+button{width:100%;padding:13px;border:none;border-radius:25px;font-weight:900;font-size:16px;margin:6px 0;cursor:pointer}
+.green{background:#00e676}.gold{background:gold}.blue{background:#2196f3;color:#fff}.red{background:#ff1744;color:#fff}.purple{background:#a855f7;color:#fff}
+.task{background:#2a2a2a;padding:12px;border-radius:15px;margin:8px 0;display:flex;justify-content:space-between;align-items:center}
+.task b{font-size:13px}
+.task span{font-size:11px;color:#aaa}
+.task button{width:auto;padding:8px 15px;font-size:13px}
+.coin{color:gold;font-weight:900}
+.footer{background:#111;padding:20px;text-align:center;font-size:12px;color:#888}
+.footer a{color:#00e676;text-decoration:none}
+.tab{display:flex;gap:8px;margin:10px}
+.tab button{flex:1;padding:10px;font-size:13px}
+</style>
+</head>
+<body>
+
+<div class="top">
+<h1>🔥 FAIZAN SOCIAL 🔥</h1>
+<p>Like, Follow, Comment Karke Paisa Kamao!</p>
+<p>Faizan Apps | Dina, Punjab | 100% FREE</p>
+</div>
+
+<div class="stats">
+<div><b>21,3396</b><span>Log Jude Hain*</span></div>
+<div><b id="myCoins">0</b><span>Mere Coins</span></div>
+<div><b>Rs 0</b><span>Meri Earning</span></div>
+</div>
+
+<div class="box" id="loginBox">
+<h2>👋 Assalam-o-Alaikum! Login Karo</h2>
+<p style="font-size:13px;color:#aaa">Apna Naam Aur WhatsApp Number Likho, FREE Account Ban Jayega!</p>
+<input id="myName" placeholder="👤 Apna Naam Likho - Example: Faizan" />
+<input id="myNum" placeholder="📱 WhatsApp Number - Example: 03070647564" />
+<button class="green" onclick="login()">✅ LOGIN / ACCOUNT BANAO - FREE</button>
+<p style="font-size:11px;color:#888;text-align:center">Login karte hi +100 Coins FREE Milenge!</p>
+<button class="blue" onclick="window.open('https://wa.me/923070647564?text=Salam Faizan, Mujhe FAIZAN SOCIAL Me Account Banana Hai')">💬 WhatsApp Se Login Karo</button>
+</div>
+
+<div class="box">
+<h2>🎯 Aaj Ke Tasks - Coins Kamao!</h2>
+<p style="font-size:12px;color:#aaa">Task karo, Screenshot bhejo, Coins lo! 1000 Coins = Rs 100 JazzCash!</p>
+
+<div class="tab">
+<button class="green" onclick="showTab('all')">Sab</button>
+<button class="blue" onclick="showTab('like')">❤️ Like</button>
+<button class="purple" onclick="showTab('follow')">👤 Follow</button>
+</div>
+
+<div id="taskList">
+<div class="task" data-type="like">
+<div><b>❤️ YouTube Video Like Karo</b><br><span>Faizan News Ki Video Like Karo</span><br><span class="coin">+20 Coins</span></div>
+<button class="green" onclick="doTask(20,'YouTube Like')">KARO</button>
+</div>
+
+<div class="task" data-type="follow">
+<div><b>👤 YouTube Subscribe Karo</b><br><span>@website49632 Ko Subscribe Karo</span><br><span class="coin">+50 Coins</span></div>
+<button class="red" onclick="doTask(50,'YouTube Subscribe')">KARO</button>
+</div>
+
+<div class="task" data-type="follow">
+<div><b>🎵 TikTok Follow Karo</b><br><span>@theboss7847 Ko Follow Karo</span><br><span class="coin">+50 Coins</span></div>
+<button class="blue" onclick="doTask(50,'TikTok Follow')">KARO</button>
+</div>
+
+<div class="task" data-type="like">
+<div><b>❤️ TikTok Video Like Karo</b><br><span>Latest TikTok Video Like Karo</span><br><span class="coin">+20 Coins</span></div>
+<button class="green" onclick="doTask(20,'TikTok Like')">KARO</button>
+</div>
+
+<div class="task" data-type="like">
+<div><b>💬 YouTube Pe Comment Karo</b><br><span>"FAIZAN SOCIAL" Likho Comment Me</span><br><span class="coin">+30 Coins</span></div>
+<button class="gold" onclick="doTask(30,'Comment')">KARO</button>
+</div>
+
+<div class="task" data-type="follow">
+<div><b>📸 Instagram Follow Karo</b><br><span>@website49632 Ko Follow Karo</span><br><span class="coin">+40 Coins</span></div>
+<button class="purple" onclick="doTask(40,'Instagram Follow')">KARO</button>
+</div>
+
+<div class="task" data-type="like">
+<div><b>🎮 Game Khelo - Faizan Fire</b><br><span>Game Khelo, BOOYAH Karo</span><br><span class="coin">+100 Coins</span></div>
+<button class="red" onclick="window.location.href='game.html'">PLAY</button>
+</div>
+
+<div class="task" data-type="like">
+<div><b>🎤 Voice Opener Try Karo</b><br><span>"YouTube Kholo" Bolo</span><br><span class="coin">+30 Coins</span></div>
+<button class="green" onclick="window.location.href='voice.html'">TRY KARO</button>
+</div>
+</div>
+</div>
+
+<div class="box">
+<h2>💰 Withdraw - JazzCash / Easypaisa</h2>
+<p style="font-size:13px">Tumhare Coins: <b class="coin" id="coin2">0</b> | Rs <b id="rsBal">0</b></p>
+<p style="font-size:12px;color:#aaa">1000 Coins = Rs 100 | 5000 Coins = Rs 500 | 10000 Coins = Rs 1000</p>
+<button class="gold" onclick="withdraw()">💳 WITHDRAW KARO - WhatsApp Pe</button>
+<button class="blue" onclick="claimDaily()">🎁 DAILY +100 COINS LO</button>
+</div>
+
+<div class="box">
+<h2>🏆 Top Earners - Dina</h2>
+<p style="font-size:13px">🥇 Faizan - Dina - 50,000 Coins - Rs 5000<br>🥈 Ahmed - Dina - 32,000 Coins - Rs 3200<br>🥉 Ali - Jhelum - 28,000 Coins - Rs 2800<br>4. Usman - Dina - 15,000 Coins - Rs 1500</p>
+<p style="font-size:11px;color:#aaa">*Tum bhi Top me aa sakte ho! Roz Task karo!</p>
+</div>
+
+<div class="box">
+<h2>❓ Kaise Kaam Karta Hai?</h2>
+<p style="font-size:13px;line-height:1.8">
+1. FREE Account Banao - Naam + Number Likho<br>
+2. Task Karo - Like, Follow, Comment Karo<br>
+3. Coins Kamao - Har Task Pe Coins Milenge<br>
+4. Withdraw Karo - 1000 Coins Pe JazzCash Lo!<br>
+5. Dosto Ko Bulao - Har Dost Pe +200 Coins!
+</p>
+<button class="green" onclick="window.open('https://wa.me/923070647564?text=Salam, Mujhe FAIZAN SOCIAL Ka Referral Link Chahiye')">🔗 APNA REFERRAL LINK LO</button>
+</div>
+
+<div class="footer">
+<h3 style="color:#00e676">🔥 FAIZAN SOCIAL 🔥</h3>
+<p>Banane Wala: Faizan - Dina, Punjab</p>
+<p>YouTube: @website49632 | TikTok: @theboss7847</p>
+<p>WhatsApp: 0307 064 7564</p>
+<p><a href="index.html">Home</a> | <a href="game.html">Game</a> | <a href="voice.html">Voice Opener</a> | <a href="earn.html">Earn</a></p>
+<p style="margin-top:10px">© 2026 Faizan Social - Sab Kuch FREE Hai!</p>
+<p style="font-size:10px">Note: Ye learning ke liye banayi gayi demo website hai. Earning WhatsApp pe confirm karke di jayegi.</p>
+</div>
+
+<script>
+let coins = parseInt(localStorage.getItem("faizan_coin")||"0");
+let myName = localStorage.getItem("faizan_name")||"";
+updateCoins();
+if(myName){ document.getElementById("myName").value=myName; document.getElementById("loginBox").innerHTML="<h2>👋 Welcome Wapas, "+myName+"!</h2><p style='font-size:13px'>Tumhare Coins: <b style='color:gold'>"+coins+"</b> | Aaj ke Tasks neeche hain!</p><button class='green' onclick='claimDaily()'>🎁 DAILY +100 LO</button>"; }
+function updateCoins(){
+  document.getElementById("myCoins").innerText=coins;
+  document.getElementById("coin2").innerText=coins;
+  document.getElementById("rsBal").innerText=Math.floor(coins/10);
+}
+function login(){
+  let n=document.getElementById("myName").value.trim();
+  let num=document.getElementById("myNum").value.trim();
+  if(!n){ alert("Pehle Apna Naam Likho!"); return; }
+  if(!num){ alert("WhatsApp Number Likho!"); return; }
+  localStorage.setItem("faizan_name",n);
+  coins+=100;
+  localStorage.setItem("faizan_coin",coins);
+  updateCoins();
+  alert("🎉 Mubarak Ho "+n+"!\nAccount Ban Gaya! +100 Coins Mil Gaye!\nTotal: "+coins);
+  location.reload();
+}
+function doTask(coin,taskName){
+  coins+=coin;
+  localStorage.setItem("faizan_coin",coins);
+  updateCoins();
+  alert("✅ Task Ho Gaya: "+taskName+"\n+"+coin+" Coins Mil Gaye!\nTotal: "+coins);
+  if(taskName.includes("YouTube")) window.open("https://youtube.com/@website49632");
+  if(taskName.includes("TikTok")) window.open("https://tiktok.com/@theboss7847");
+  if(taskName.includes("Instagram")) window.open("https://instagram.com");
+}
+function claimDaily(){
+  coins+=100;
+  localStorage.setItem("faizan_coin",coins);
+  updateCoins();
+  alert("🎁 +100 Coins Mil Gaye! Total: "+coins);
+}
+function withdraw(){
+  if(coins<1000){ alert("Withdraw ke liye 1000 Coins chahiye!\nTumhare paas: "+coins+"\nTask karo, Coins kamao!"); return; }
+  alert("💳 Withdraw Request!\nCoins: "+coins+" = Rs "+Math.floor(coins/10)+"\nWhatsApp pe message bhejo!");
+  window.open("https://wa.me/923070647564?text=Salam Faizan, Mujhe FAIZAN SOCIAL Se "+coins+" Coins ("+Math.floor(coins/10)+" Rs) Withdraw Karne Hain. Mera Naam: "+(localStorage.getItem("faizan_name")||"") );
+}
+function showTab(t){
+  let tasks=document.querySelectorAll(".task");
+  tasks.forEach(task=>{
+    if(t=='all') task.style.display="flex";
+    else if(task.getAttribute("data-type")==t) task.style.display="flex";
+    else task.style.display="none";
+  });
+}
+</script>
+</body>
+</html>
