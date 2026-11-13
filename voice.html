@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAIZAN VOICE OPENER</title>
+<style>
+body{background:#000;color:#fff;font-family:Arial;text-align:center;padding:20px}
+h1{color:#00e676;font-size:32px}
+#mic{width:150px;height:150px;background:red;border-radius:50%;font-size:70px;border:5px solid #fff;margin:20px auto;display:flex;align-items:center;justify-content:center;cursor:pointer}
+#mic.listening{background:#00e676;animation:pulse 1s infinite}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
+.box{background:#222;padding:15px;border-radius:15px;margin:10px;text-align:left}
+button{padding:12px 20px;border:none;border-radius:20px;font-weight:900;margin:5px}
+.green{background:#00e676}.gold{background:gold}.blue{background:#2196f3;color:#fff}
+</style>
+</head>
+<body>
+<h1>🎤 FAIZAN VOICE OPENER</h1>
+<p>Bolo, Khul Jayega!</p>
+<p style="color:#aaa">Bolo: "YouTube Kholo" / "Gallery Kholo" / "Game Kholo"</p>
+
+<div id="mic" onclick="startVoice()">🎤</div>
+<p id="status">Mic dabao aur bolo...</p>
+<p id="heard" style="color:#00e676;font-size:20px;font-weight:900"></p>
+
+<div class="box">
+<h3>📱 Meri Apps - Touch Karke Bhi Kholo</h3>
+<button class="green" onclick="openApp('youtube')">▶️ YouTube</button>
+<button class="green" onclick="openApp('whatsapp')">💬 WhatsApp</button>
+<button class="green" onclick="openApp('tiktok')">🎵 TikTok</button>
+<button class="green" onclick="openApp('gallery')">🖼️ Gallery</button>
+<button class="green" onclick="openApp('camera')">📷 Camera</button>
+<button class="green" onclick="openApp('game')">🔥 Game</button>
+</div>
+
+<div class="box">
+<h3>📁 Meri Files</h3>
+<button class="gold" onclick="openApp('photo')">📸 Meri Photo</button>
+<button class="gold" onclick="openApp('video')">🎬 Meri Video</button>
+<button class="gold" onclick="openApp('music')">🎵 Music</button>
+<button class="gold" onclick="openApp('download')">📥 Download Folder</button>
+</div>
+
+<div class="box">
+<h3>🎮 Games</h3>
+<button class="blue" onclick="openApp('freefire')">🔥 Free Fire</button>
+<button class="blue" onclick="openApp('pubg')">💣 PUBG</button>
+<button class="blue" onclick="window.location.href='game.html'">🎮 Faizan Fire MAX</button>
+</div>
+
+<p style="font-size:12px;color:#777">YouTube: @website49632 | TikTok: @theboss7847<br>Website: boss496032-hub.github.io</p>
+
+<script>
+let rec;
+function startVoice(){
+  let mic=document.getElementById("mic");
+  mic.classList.add("listening");
+  document.getElementById("status").innerText="Sun raha hun... Bolo!";
+  let SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ alert("Ye browser voice support nahi karta, Chrome use karo!"); return; }
+  rec = new SR();
+  rec.lang = 'ur-PK';
+  rec.onresult = function(e){
+    let text = e.results[0][0].transcript.toLowerCase();
+    document.getElementById("heard").innerText = "Tumne bola: " + text;
+    mic.classList.remove("listening");
+    checkCommand(text);
+  };
+  rec.onerror = function(){ mic.classList.remove("listening"); document.getElementById("status").innerText="Dobara try karo!"; };
+  rec.start();
+}
+function checkCommand(t){
+  if(t.includes("youtube") || t.includes("utube")) openApp('youtube');
+  else if(t.includes("whatsapp") || t.includes("whats")) openApp('whatsapp');
+  else if(t.includes("tiktok") || t.includes("tik")) openApp('tiktok');
+  else if(t.includes("gallery") || t.includes("photo") || t.includes("tasveer")) openApp('gallery');
+  else if(t.includes("camera") || t.includes("camra")) openApp('camera');
+  else if(t.includes("game") || t.includes("free fire") || t.includes("faizan fire")) openApp('game');
+  else if(t.includes("music") || t.includes("gana") || t.includes("song")) openApp('music');
+  else if(t.includes("video")) openApp('video');
+  else if(t.includes("download")) openApp('download');
+  else if(t.includes("google")) window.open("https://google.com");
+  else if(t.includes("website") || t.includes("faizan")) window.location.href='index.html';
+  else { document.getElementById("status").innerText="Samajh nahi aya, dobara bolo!"; speak("Samajh nahi aya, dobara bolo"); }
+}
+function openApp(name){
+  document.getElementById("status").innerText="Khul raha hai: "+name+"...";
+  speak(name + " khul raha hai");
+  let links={
+    'youtube':'https://youtube.com/@website49632',
+    'whatsapp':'https://wa.me/923070647564',
+    'tiktok':'https://tiktok.com/@theboss7847',
+    'gallery':'https://photos.google.com',
+    'camera':'',
+    'game':'game.html',
+    'photo':'https://photos.google.com',
+    'video':'https://youtube.com',
+    'music':'https://music.youtube.com',
+    'download':'',
+    'freefire':'game.html',
+    'pubg':'game.html'
+  };
+  if(links[name] && links[name]!=""){ window.open(links[name],"_blank"); }
+  else { alert(name+" khul gaya! (Phone me ye asli app kholega jab Play Store pe hoga)"); }
+}
+function speak(txt){
+  let s = new SpeechSynthesisUtterance(txt);
+  s.lang='ur-PK';
+  speechSynthesis.speak(s);
+}
+</script>
+</body>
+</html>
