@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>FAIZAN PRIDOR - Extreme Bike Game</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#fff;font-family:Arial;overflow-x:hidden}
+.top{background:linear-gradient(90deg,#ff0000,#ff6a00);padding:10px;text-align:center}
+.top h1{font-size:20px}
+.top p{font-size:11px}
+.hud{display:flex;justify-content:space-between;padding:8px 10px;background:#111}
+.hud b{font-size:16px}
+.hud span{font-size:11px;color:#aaa;display:block}
+#gameArea{width:100%;height:42vh;background:linear-gradient(#87ceeb 0%, #87ceeb 60%, #555 60%, #333 100%);position:relative;overflow:hidden;border-bottom:3px solid #fff}
+#road{position:absolute;bottom:0;width:200%;height:45px;background:#222;border-top:3px dashed #fff}
+#bike{position:absolute;bottom:35px;left:20px;width:220px;z-index:5}
+#bike img{width:100%;border-radius:10px}
+#bike.wheelie{transform:rotate(-25deg);bottom:60px}
+#bike.jump{bottom:120px}
+.uploadBox{background:#222;padding:12px;text-align:center;border:2px dashed #00e676;margin:10px;border-radius:15px}
+.uploadBox p{font-size:13px;margin-bottom:8px}
+.uploadBtn{background:#00e676;color:#000;padding:12px 20px;border-radius:25px;font-weight:900;border:none;font-size:14px}
+.controls{padding:10px;background:#111}
+.row{display:flex;gap:8px;margin:6px 0}
+button{flex:1;padding:14px;border:none;border-radius:15px;font-weight:900;font-size:14px}
+.green{background:#00e676}.red{background:#ff1744;color:#fff}.gold{background:gold}.blue{background:#2196f3;color:#fff}.purple{background:#a855f7;color:#fff}.orange{background:#ff6a00;color:#fff}
+.setting{background:#1e1e1e;margin:8px;padding:12px;border-radius:15px}
+.setting h3{color:#00e676;font-size:15px}
+.setting label{font-size:13px;display:flex;justify-content:space-between;margin:8px 0}
+input[type=range]{width:100%}
+select{width:100%;padding:10px;border-radius:10px;background:#333;color:#fff;border:none}
+</style>
+</head>
+<body>
+<div class="top">
+<h1>🏍️ FAIZAN PRIDOR - EXTREME 🏍️</h1>
+<p>Red Honda Pridor - Dina, Punjab - Apni Bike!</p>
+</div>
+
+<div class="hud">
+<div><b id="speed">0</b><span>KM/H</span></div>
+<div><b id="gear">N</b><span>GEAR</span></div>
+<div><b id="score">0</b><span>SCORE</span></div>
+<div><b id="coins">0 🪙</b><span>COINS</span></div>
+<div><b id="petrol">100%</b><span>PETROL ⛽</span></div>
+</div>
+
+<div id="gameArea">
+<div id="road"></div>
+<div id="bike">
+<img id="bikeImg" src="" style="display:none">
+<div id="bikeEmoji" style="font-size:90px;text-align:center">🏍️</div>
+</div>
+<div style="position:absolute;top:5px;right:10px;background:rgba(0,0,0,.7);padding:5px 10px;border-radius:10px;font-size:12px" id="msg">Engine Band Hai - START Dabao!</div>
+</div>
+
+<!-- 📸 PHOTO LAGANE WALA BUTTON - PEHLE SE LAGA HUA HAI! -->
+<div class="uploadBox">
+<p>📸 Apni Bike Ki Photo Lagao - Yahan Dabao 👇</p>
+<input type="file" id="myBikePic" accept="image/*" onchange="loadMyBike(event)" style="display:none">
+<button class="uploadBtn" onclick="document.getElementById('myBikePic').click()">📸 APNI PRIDOR KI PHOTO LAGAO</button>
+<p style="font-size:11px;color:#aaa;margin-top:6px">Gallery se Red Pridor wali photo select karo, game me aa jayegi!</p>
+<button class="uploadBtn" style="background:gold;margin-top:5px" onclick="useDemoBike()">🏍️ DEMO BIKE DEKHO</button>
+</div>
+
+<div class="controls">
+<div class="row">
+<button class="green" id="startBtn" onclick="startEngine()">🔑 START ENGINE</button>
+<button class="red" onclick="stopEngine()">🛑 STOP</button>
+<button class="gold" onclick="horn()">📯 HORN</button>
+</div>
+<div class="row">
+<button class="blue" onmousedown="accelerate()" onmouseup="releaseAccel()" ontouchstart="accelerate()" ontouchend="releaseAccel()">⛽ RACE - TEZ</button>
+<button class="orange" onmousedown="brake()" onmouseup="releaseBrake()" ontouchstart="brake()" ontouchend="releaseBrake()">🛑 BRAKE</button>
+</div>
+<div class="row">
+<button class="purple" onclick="changeGearUp()">⬆️ GEAR UP</button>
+<button class="purple" onclick="changeGearDown()">⬇️ GEAR DOWN</button>
+<button class="gold" onclick="wheelie()">🤸 WHEELIE!</button>
+<button class="blue" onclick="jumpBike()">🦘 JUMP</button>
+</div>
+<div class="row">
+<button class="green" onclick="showSettings()">⚙️ SETTING</button>
+<button class="red" onclick="window.location.href='index.html'">🏠 HOME</button>
+<button class="gold" onclick="shareGame()">📤 SHARE</button>
+</div>
+</div>
+
+<div class="setting" id="settingBox" style="display:none">
+<h3>⚙️ GAME SETTING - Sab Kuch Yahan Hai!</h3>
+<label>🏍️ Bike Ka Rang: <select id="bikeColor" onchange="changeColor()"><option value="red">🔴 Red - Tumhari Wali</option><option value="black">⚫ Black</option><option value="blue">🔵 Blue</option><option value="green">🟢 Green</option><option value="yellow">🟡 Yellow</option></select></label>
+<label>🔊 Awaz: <input type="range" id="soundVol" min="0" max="100" value="80"></label>
+<label>💨 Speed Level: <input type="range" id="speedLevel" min="1" max="5" value="3"></label>
+<label>🌧️ Mausam: <select id="weather" onchange="changeWeather()"><option value="day">☀️ Din - Dhoop</option><option value="night">🌙 Raat</option><option value="rain">🌧️ Barish</option><option value="sunset">🌇 Sham - Sunset</option></select></label>
+<label>🛣️ Road: <select id="roadType" onchange="changeRoad()"><option value="city">🏙️ Dina City</option><option value="village">🏡 Gaon - Katcha Road</option><option value="highway">🛣️ GT Road - Highway</option><option value="offroad">🏔️ Pahari - Off Road</option></select></label>
+<button class="green" onclick="hideSettings()">✅ SAVE & CLOSE</button>
+</div>
+
+<div style="padding:10px;text-align:center;font-size:12px;color:#888">
+🏍️ FAIZAN PRIDOR GAME | YouTube: @website49632 | WhatsApp: 0307 064 7564<br>
+Gear badlo, Wheelie maro, Coins kamao!
+</div>
+
+<script>
+let speed=0, gear=0, score=0, coins=0, petrol=100, engineOn=false, acc=false, brk=false;
+let gearNames=["N","1","2","3","4","5"];
+
+// 📸 YEHI WALA FUNCTION PHOTO LAGATA HAI - TUMHE KUCH NAHI KARNA!
+function loadMyBike(event){
+  let file = event.target.files[0];
+  if(!file){ return; }
+  let reader = new FileReader();
+  reader.onload = function(e){
+    let img = document.getElementById("bikeImg");
+    img.src = e.target.result;
+    img.style.display = "block";
+    document.getElementById("bikeEmoji").style.display = "none";
+    localStorage.setItem("faizan_bike_pic", e.target.result);
+    alert("🎉 HO GAYA! Tumhari Pridor Lag Gayi!\nAb Game Khelo!");
+  }
+  reader.readAsDataURL(file);
+}
+function useDemoBike(){
+  document.getElementById("bikeEmoji").style.display = "block";
+  document.getElementById("bikeEmoji").innerText = "🏍️";
+  document.getElementById("bikeImg").style.display = "none";
+  alert("Demo Bike Lag Gayi! Ab apni photo bhi laga sakte ho!");
+}
+// Agar pehle se photo lagi hui hai to wapas dikhao
+window.onload = function(){
+  let saved = localStorage.getItem("faizan_bike_pic");
+  if(saved){
+    let img = document.getElementById("bikeImg");
+    img.src = saved;
+    img.style.display = "block";
+    document.getElementById("bikeEmoji").style.display = "none";
+  }
+}
+function startEngine(){ if(engineOn) return; engineOn=true; document.getElementById("startBtn").innerText="✅ ENGINE ON"; document.getElementById("msg").innerText="🔥 Engine ON! Race Dabao!"; speak("Faizan Pridor Engine Start"); }
+function stopEngine(){ engineOn=false; speed=0; gear=0; document.getElementById("startBtn").innerText="🔑 START ENGINE"; document.getElementById("msg").innerText="Engine Band Hai - START Dabao!"; updateHUD(); }
+function horn(){ speak("Pee Pee!"); alert("📯 PEE PEE! - Faizan Aa Raha Hai!"); }
+function speak(t){ try{let u=new SpeechSynthesisUtterance(t);u.lang="ur-PK";speechSynthesis.speak(u);}catch(e){} }
+function accelerate(){ if(!engineOn){alert("Pehle ENGINE START karo!");return;} acc=true; }
+function releaseAccel(){ acc=false; }
+function brake(){ brk=true; } function releaseBrake(){ brk=false; }
+function changeGearUp(){ if(gear<5){gear++; speak("Gear "+gear); updateHUD();} }
+function changeGearDown(){ if(gear>0){gear--; updateHUD();} }
+function wheelie(){ if(speed>20){ let b=document.getElementById("bike"); b.classList.add("wheelie"); score+=50; setTimeout(()=>b.classList.remove("wheelie"),1500); alert("🤸 WHEELIE! +50 Points!"); updateHUD(); } else alert("Pehle Speed 20+ Karo Phir Wheelie Maregi!"); }
+function jumpBike(){ let b=document.getElementById("bike"); b.classList.add("jump"); score+=20; setTimeout(()=>b.classList.remove("jump"),600); updateHUD(); }
+function updateHUD(){ document.getElementById("speed").innerText=Math.floor(speed); document.getElementById("gear").innerText=gearNames[gear]; document.getElementById("score").innerText=score; document.getElementById("coins").innerText=coins+" 🪙"; document.getElementById("petrol").innerText=Math.floor(petrol)+"%"; }
+function showSettings(){ document.getElementById("settingBox").style.display="block"; }
+function hideSettings(){ document.getElementById("settingBox").style.display="none"; alert("✅ Setting Save Ho Gayi!"); }
+function changeColor(){ let c=document.getElementById("bikeColor").value; let colors={red:"#ff0000",black:"#222",blue:"#2196f3",green:"#00e676",yellow:"#ffeb00"}; document.querySelector(".top").style.background="linear-gradient(90deg,"+colors[c]+",#ff6a00)"; document.getElementById("msg").innerText="Bike Ka Rang Badal Gaya: "+c; }
+function changeWeather(){ let w=document.getElementById("weather").value; let area=document.getElementById("gameArea"); if(w=="night") area.style.background="linear-gradient(#000 0%, #111 60%, #555 60%, #333 100%)"; if(w=="day") area.style.background="linear-gradient(#87ceeb 0%, #87ceeb 60%, #555 60%, #333 100%)"; if(w=="sunset") area.style.background="linear-gradient(#ff9800 0%, #ff5722 60%, #555 60%, #333 100%)"; if(w=="rain") area.style.background="linear-gradient(#546e7a 0%, #78909c 60%, #555 60%, #333 100%)"; }
+function changeRoad(){ let r=document.getElementById("roadType").value; document.getElementById("msg").innerText="Road Badal Gaya: "+r+" - Chalo!"; }
+function shareGame(){ window.open("https://wa.me/?text=Maine FAIZAN PRIDOR Game Kheli! Tum Bhi Khelo: https://boss496032-hub.github.io/bike.html"); }
+setInterval(()=>{ if(engineOn && acc){ speed+= (gear+1)*0.8; if(speed>160) speed=160; petrol-=0.05; score+=1; } if(engineOn && brk){ speed-=3; if(speed<0) speed=0; } if(engineOn && !acc){ speed-=0.3; if(speed<0) speed=0; } if(petrol<=0){ petrol=0; engineOn=false; alert("⛽ Petrol Khatam!"); } if(speed>0 && Math.random()<0.02){ coins+=10; score+=10; } updateHUD(); },100);
+</script>
+</body>
+</html>
